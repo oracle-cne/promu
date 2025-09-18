@@ -1,7 +1,7 @@
 FROM container-registry.oracle.com/os/oraclelinux:9 AS builder
 
 RUN dnf config-manager --enable ol9_codeready_builder && \
-    dnf -y install git make golang hostname && \
+    dnf -y install git make golang hostname yq && \
     go version
 
 # Copy the contents of the repository
@@ -12,6 +12,7 @@ ENV GOPATH_SRC=$GOPATH/src/github.com/oracle-cne/promu
 WORKDIR /workspace/go/src/github.com/oracle-cne/promu
 
 RUN git config --global --add safe.directory $(pwd) && \
+    yq -i '.build.flags = "-trimpath=false"' .promu.yml && \
     sh olm/go-build.sh
 
 FROM container-registry.oracle.com/os/oraclelinux:9-slim
