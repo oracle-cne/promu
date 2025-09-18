@@ -26,6 +26,6 @@ RUN microdnf update -y &&\
     microdnf clean all &&\
     test -d /LICENSES || ln -s /usr/share/licenses /LICENSES
 
-ENV PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+USER nobody
 
 ENTRYPOINT [ "/usr/bin/promu" ]
