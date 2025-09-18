@@ -1,6 +1,8 @@
 FROM container-registry.oracle.com/os/oraclelinux:9 AS builder
 
 RUN dnf config-manager --enable ol9_codeready_builder && \
+    dnf install -y oracle-ocne-release-el9 && \
+    dnf config-manager --enable ol9_olcne19 && \
     dnf -y install git make golang hostname yq && \
     go version
 
