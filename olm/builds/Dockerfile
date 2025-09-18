@@ -14,6 +14,7 @@ WORKDIR /workspace/go/src/github.com/oracle-cne/promu
 RUN git config --global --add safe.directory $(pwd) && \
     yq -i '.build.flags = "-trimpath=false"' .promu.yml && \
     yq -i '.build.ldflags += "-X main.version=v${.Version}"' .promu.yml && \
+    sed -i 's|github.com/prometheus/promu||g' Makefile && \
     make build
 
 FROM container-registry.oracle.com/os/oraclelinux:9-slim
