@@ -13,7 +13,8 @@ WORKDIR /workspace/go/src/github.com/oracle-cne/promu
 
 RUN git config --global --add safe.directory $(pwd) && \
     yq -i '.build.flags = "-trimpath=false"' .promu.yml && \
-    sh olm/go-build.sh
+    yq -i '.build.ldflags += "-X main.version=v${.Version}"' .promu.yml && \
+    make build
 
 FROM container-registry.oracle.com/os/oraclelinux:9-slim
 
